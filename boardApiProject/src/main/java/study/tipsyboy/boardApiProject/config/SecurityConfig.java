@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import study.tipsyboy.boardApiProject.security.jwt.config.JwtConfig;
 import study.tipsyboy.boardApiProject.security.jwt.exception.JwtAccessDeniedHandler;
@@ -17,6 +20,14 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtConfig jwtConfig;
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .antMatchers(
+                        "/h2-console/**",
+                        "/favicon.ico");
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -50,5 +61,10 @@ public class SecurityConfig {
                 .apply(jwtConfig); // jwt 관련 설정 적용
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
