@@ -1,6 +1,7 @@
 package study.tipsyboy.boardApiProject.member.domain;
 
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
@@ -38,4 +39,18 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Reply> replyList = new ArrayList<>();
+
+
+    // ===== 비즈니스 로직 ===== //
+    public void update(String nickname, String password, PasswordEncoder passwordEncoder) {
+        editNickname(nickname);
+        editPassword(password, passwordEncoder);
+    }
+
+    private void editNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    private void editPassword(String password, PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
+    }
 }

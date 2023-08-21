@@ -7,6 +7,7 @@ import study.tipsyboy.boardApiProject.auth.exception.AuthException;
 import study.tipsyboy.boardApiProject.auth.exception.AuthExceptionType;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.member.domain.MemberRepository;
+import study.tipsyboy.boardApiProject.member.dto.MemberProfileUpdateDto;
 import study.tipsyboy.boardApiProject.posts.domain.Category;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.posts.domain.PostsRepository;
