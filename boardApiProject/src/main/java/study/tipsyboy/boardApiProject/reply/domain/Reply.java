@@ -1,0 +1,45 @@
+package study.tipsyboy.boardApiProject.reply.domain;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import study.tipsyboy.boardApiProject.posts.domain.Posts;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+public class Reply {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reply_id")
+    private Long id;
+
+    private String content;
+
+    private LocalDateTime createDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "posts_id")
+    private Posts posts;
+
+    public static Reply createReply(Posts posts, String content) {
+        Reply reply = new Reply();
+        reply.mappingPosts(posts);
+        reply.content = content;
+        reply.createDate = LocalDateTime.now();
+
+        return reply;
+    }
+
+    private void mappingPosts(Posts posts) {
+        this.posts = posts;
+        posts.getReplyList().add(this);
+    }
+
+}
+

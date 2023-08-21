@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
+import study.tipsyboy.boardApiProject.reply.dto.ReplyReadResponseDto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,12 +20,18 @@ public class PostsReadResponseDto {
     private String title;
     private String content;
     private String category;
+    private List<ReplyReadResponseDto> replyReadResponseDtoList = new ArrayList<>();
 
     public static PostsReadResponseDto from(Posts entity) {
+        List<ReplyReadResponseDto> replyList = entity.getReplyList().stream()
+                .map(Reply -> ReplyReadResponseDto.from(Reply))
+                .collect(Collectors.toList());
+
         return new PostsReadResponseDto(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
-                entity.getCategory().getKey());
+                entity.getCategory().getKey(),
+                replyList);
     }
 }

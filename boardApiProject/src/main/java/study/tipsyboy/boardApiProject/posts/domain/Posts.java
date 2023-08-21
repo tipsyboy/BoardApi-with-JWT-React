@@ -1,9 +1,12 @@
 package study.tipsyboy.boardApiProject.posts.domain;
 
 import lombok.*;
+import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -28,6 +31,8 @@ public class Posts {
 
     private LocalDateTime createDate;
 
+    @OneToMany(mappedBy = "posts")
+    private List<Reply> replyList = new ArrayList<>();
 
     // ===== 정적 팩토리 메서드 ===== //
     public static Posts createPosts(String title, String content, Category category) {
