@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class PostsReadResponseDto {
 
     private Long id;
+    private String nickname;
     private String title;
     private String content;
     private String category;
@@ -29,6 +30,7 @@ public class PostsReadResponseDto {
 
         return new PostsReadResponseDto(
                 entity.getId(),
+                entity.getMember().getNickname(),
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getCategory().getKey(),

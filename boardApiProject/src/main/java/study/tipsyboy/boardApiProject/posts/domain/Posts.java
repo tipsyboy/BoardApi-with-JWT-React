@@ -1,6 +1,7 @@
 package study.tipsyboy.boardApiProject.posts.domain;
 
 import lombok.*;
+import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
 import javax.persistence.*;
@@ -34,14 +35,24 @@ public class Posts {
     @OneToMany(mappedBy = "posts")
     private List<Reply> replyList = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     // ===== 정적 팩토리 메서드 ===== //
-    public static Posts createPosts(String title, String content, Category category) {
+    public static Posts createPosts(Member member, String title, String content, Category category) {
         Posts posts = new Posts();
+        posts.mappingMember(member);
         posts.title = title;
         posts.content = content;
         posts.category = category;
         posts.createDate = LocalDateTime.now();
 
         return posts;
+    }
+
+    private void mappingMember(Member member) {
+        this.member = member;
+        member.getPostsList().add(this);
     }
 }

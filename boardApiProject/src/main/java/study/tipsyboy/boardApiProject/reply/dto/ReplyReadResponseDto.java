@@ -14,12 +14,14 @@ import java.time.LocalDateTime;
 public class ReplyReadResponseDto {
 
     private Long replyId;
+    private String nickname;
     private String content;
     private LocalDateTime createDate;
 
     public static ReplyReadResponseDto from(Reply entity) {
         return new ReplyReadResponseDto(
                 entity.getId(),
+                entity.getMember().getNickname(),
                 entity.getContent(),
                 entity.getCreateDate());
     }

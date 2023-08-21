@@ -7,6 +7,7 @@ import study.tipsyboy.boardApiProject.posts.dto.PostsCreateRequestDto;
 import study.tipsyboy.boardApiProject.posts.dto.PostsReadResponseDto;
 import study.tipsyboy.boardApiProject.posts.service.PostsService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/api/posts")
@@ -17,8 +18,9 @@ public class PostsApiController {
     private final PostsService postsService;
 
     @PostMapping("/post")
-    public ResponseEntity<Long> createPosts(@RequestBody PostsCreateRequestDto requestDto) {
-        return ResponseEntity.ok(postsService.createPosts(requestDto));
+    public ResponseEntity<Long> createPosts(@RequestBody PostsCreateRequestDto requestDto,
+                                            Principal principal) {
+        return ResponseEntity.ok(postsService.createPosts(principal.getName(), requestDto));
     }
 
     @GetMapping("/post/{postsId}")

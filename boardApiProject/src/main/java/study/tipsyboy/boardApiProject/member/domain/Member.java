@@ -1,8 +1,12 @@
 package study.tipsyboy.boardApiProject.member.domain;
 
 import lombok.*;
+import study.tipsyboy.boardApiProject.posts.domain.Posts;
+import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Builder
@@ -29,4 +33,9 @@ public class Member {
     @Column(nullable = false)
     private MemberRole memberRole;
 
+    @OneToMany(mappedBy = "member")
+    private List<Posts> postsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Reply> replyList = new ArrayList<>();
 }

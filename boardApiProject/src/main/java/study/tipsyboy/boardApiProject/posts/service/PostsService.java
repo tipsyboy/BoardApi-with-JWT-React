@@ -3,6 +3,10 @@ package study.tipsyboy.boardApiProject.posts.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import study.tipsyboy.boardApiProject.auth.exception.AuthException;
+import study.tipsyboy.boardApiProject.auth.exception.AuthExceptionType;
+import study.tipsyboy.boardApiProject.member.domain.Member;
+import study.tipsyboy.boardApiProject.member.domain.MemberRepository;
 import study.tipsyboy.boardApiProject.posts.domain.Category;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.posts.domain.PostsRepository;
@@ -19,11 +23,17 @@ import java.util.stream.Collectors;
 @Service
 public class PostsService {
 
+    private final MemberRepository memberRepository;
     private final PostsRepository postsRepository;
 
     @Transactional
-    public Long createPosts(PostsCreateRequestDto requestDto) {
+    public Long createPosts(String email, PostsCreateRequestDto requestDto) {
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_EXISTS_EMAIL));
+
         Posts posts = Posts.createPosts(
+                member,
                 requestDto.getTitle(),
                 requestDto.getContent(),
                 Category.getCategoryByKey(requestDto.getCategory()));

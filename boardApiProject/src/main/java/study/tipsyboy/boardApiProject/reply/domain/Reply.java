@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 
 import javax.persistence.*;
@@ -27,8 +28,13 @@ public class Reply {
     @JoinColumn(name = "posts_id")
     private Posts posts;
 
-    public static Reply createReply(Posts posts, String content) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public static Reply createReply(Member member, Posts posts, String content) {
         Reply reply = new Reply();
+        reply.mappingMember(member);
         reply.mappingPosts(posts);
         reply.content = content;
         reply.createDate = LocalDateTime.now();
@@ -41,5 +47,9 @@ public class Reply {
         posts.getReplyList().add(this);
     }
 
+    private void mappingMember(Member member) {
+        this.member = member;
+        member.getReplyList().add(this);
+    }
 }
 
