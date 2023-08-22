@@ -14,6 +14,9 @@ import study.tipsyboy.boardApiProject.posts.exception.PostsExceptionType;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 import study.tipsyboy.boardApiProject.reply.domain.ReplyRepository;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyCreateRequestDto;
+import study.tipsyboy.boardApiProject.reply.dto.ReplyUpdateRequestDto;
+import study.tipsyboy.boardApiProject.reply.exception.ReplyException;
+import study.tipsyboy.boardApiProject.reply.exception.ReplyExceptionType;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -37,6 +40,18 @@ public class ReplyService {
         replyRepository.save(reply);
 
         return reply.getId();
+    }
+
+    @Transactional
+    public void updateReply(String email, ReplyUpdateRequestDto requestDto) {
+        Reply reply = replyRepository.findById(requestDto.getReplyId())
+                .orElseThrow(() -> new ReplyException(ReplyExceptionType.REPLY_NOT_FOUND));
+
+        if (!reply.getMember().getEmail().equals(email)) {
+            throw new ReplyException(ReplyExceptionType.BAD_REQUEST_AUTHORIZED);
+        }
+
+        reply.update(requestDto.getContent());
     }
 
 }

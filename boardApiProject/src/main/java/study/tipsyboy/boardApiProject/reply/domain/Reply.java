@@ -32,6 +32,8 @@ public class Reply {
     @JoinColumn(name = "member_id")
     private Member member;
 
+
+    // ===== 정적 팩토리 메서드 ===== //
     public static Reply createReply(Member member, Posts posts, String content) {
         Reply reply = new Reply();
         reply.mappingMember(member);
@@ -51,5 +53,11 @@ public class Reply {
         this.member = member;
         member.getReplyList().add(this);
     }
+
+    // ===== 비즈니스 로직 ===== //
+    public void update(String content) {
+        this.content = content;
+    }
+
 }
 
