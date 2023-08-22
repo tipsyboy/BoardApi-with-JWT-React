@@ -48,9 +48,8 @@ public class SecurityConfig {
                 // 요청에 대한 인증/인가 설정들
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll() // FIXME: 임시로 모든 요청 허용, 이후에 지워야함.
-//                .mvcMatchers("/api/auth/**").permitAll() // 인증 Api 요청은 인증 없어도 되야함.
-//                .anyRequest().authenticated()
+                .mvcMatchers("/api/auth/**").permitAll() // 인증 Api 요청은 인증 없어도 되야함.
+                .anyRequest().authenticated()
 
                 // Exception 관련 클래스들 등록
                 .and()
