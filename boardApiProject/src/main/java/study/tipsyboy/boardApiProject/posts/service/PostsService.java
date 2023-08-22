@@ -13,6 +13,7 @@ import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.posts.domain.PostsRepository;
 import study.tipsyboy.boardApiProject.posts.dto.PostsCreateRequestDto;
 import study.tipsyboy.boardApiProject.posts.dto.PostsReadResponseDto;
+import study.tipsyboy.boardApiProject.posts.dto.PostsUpdateRequestDto;
 import study.tipsyboy.boardApiProject.posts.exception.PostsException;
 import study.tipsyboy.boardApiProject.posts.exception.PostsExceptionType;
 
@@ -54,5 +55,20 @@ public class PostsService {
         return postsRepository.findByCategory(Category.getCategoryByKey(category)).stream()
                 .map(Posts -> PostsReadResponseDto.from(Posts))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updatePosts(String email, PostsUpdateRequestDto requestDto) {
+        Posts posts = postsRepository.findById(requestDto.getPostsId())
+                .orElseThrow(() -> new PostsException(PostsExceptionType.NOT_FOUND_POSTS));
+
+        if (!posts.getMember().getEmail().equals(email)) {
+            throw new PostsException(PostsExceptionType.BAD_REQUEST_AUTHORIZED);
+        }
+
+        posts.updatePosts(
+                requestDto.getTitle(),
+                requestDto.getContent(),
+                Category.getCategoryByKey(requestDto.getCategory()));
     }
 }

@@ -55,4 +55,11 @@ public class Posts {
         this.member = member;
         member.getPostsList().add(this);
     }
+
+    // ===== 비즈니스 로직 ===== //
+    public void updatePosts(String title, String content, Category category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }
