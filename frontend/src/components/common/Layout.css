@@ -1,0 +1,11 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contents {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto; /* 스크롤이 필요한 경우에만 스크롤 생성 */
+}

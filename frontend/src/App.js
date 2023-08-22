@@ -1,7 +1,13 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Layout from "./components/common/Layout";
 
 function App() {
-  return <div>Hello React!</div>;
+  return (
+    <Router>
+      <Layout></Layout>
+    </Router>
+  );
 }
 
 export default App;
