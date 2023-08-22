@@ -1,6 +1,7 @@
 package study.tipsyboy.boardApiProject.posts.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
@@ -39,6 +40,8 @@ public class Posts {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private int likes;
+
     // ===== 정적 팩토리 메서드 ===== //
     public static Posts createPosts(Member member, String title, String content, Category category) {
         Posts posts = new Posts();
@@ -47,6 +50,7 @@ public class Posts {
         posts.content = content;
         posts.category = category;
         posts.createDate = LocalDateTime.now();
+        posts.likes = 0;
 
         return posts;
     }
@@ -61,5 +65,9 @@ public class Posts {
         this.title = title;
         this.content = content;
         this.category = category;
+    }
+
+    public void addPostsLikes() {
+        this.likes += 1;
     }
 }

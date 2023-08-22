@@ -21,6 +21,7 @@ public class PostsReadResponseDto {
     private String title;
     private String content;
     private String category;
+    private Integer likes;
     private List<ReplyReadResponseDto> replyReadResponseDtoList = new ArrayList<>();
 
     public static PostsReadResponseDto from(Posts entity) {
@@ -34,6 +35,7 @@ public class PostsReadResponseDto {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getCategory().getKey(),
+                entity.getLikes(),
                 replyList);
     }
 }

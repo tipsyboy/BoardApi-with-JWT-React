@@ -17,12 +17,14 @@ public class ReplyReadResponseDto {
     private String nickname;
     private String content;
     private LocalDateTime createDate;
+    private Integer likes;
 
     public static ReplyReadResponseDto from(Reply entity) {
         return new ReplyReadResponseDto(
                 entity.getId(),
                 entity.getMember().getNickname(),
                 entity.getContent(),
-                entity.getCreateDate());
+                entity.getCreateDate(),
+                entity.getLikes());
     }
 }

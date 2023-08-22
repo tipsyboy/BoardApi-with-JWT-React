@@ -25,7 +25,7 @@ public class MemberService {
         }
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_EXISTS_EMAIL));
+                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_FOUND_EMAIL));
 
         member.update(requestDto.getNickname(), requestDto.getPassword(), passwordEncoder);
     }

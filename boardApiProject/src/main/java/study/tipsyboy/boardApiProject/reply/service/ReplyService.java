@@ -31,7 +31,7 @@ public class ReplyService {
     public Long createReply(String email, ReplyCreateRequestDto requestDto) {
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_EXISTS_EMAIL));
+                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_FOUND_EMAIL));
 
         Posts posts = postsRepository.findById(requestDto.getPostsId())
                 .orElseThrow(() -> new PostsException(PostsExceptionType.NOT_FOUND_POSTS));

@@ -32,7 +32,7 @@ public class PostsService {
     public Long createPosts(String email, PostsCreateRequestDto requestDto) {
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_EXISTS_EMAIL));
+                .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_FOUND_EMAIL));
 
         Posts posts = Posts.createPosts(
                 member,

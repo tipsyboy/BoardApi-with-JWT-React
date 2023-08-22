@@ -32,6 +32,8 @@ public class Reply {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private int likes;
+
 
     // ===== 정적 팩토리 메서드 ===== //
     public static Reply createReply(Member member, Posts posts, String content) {
@@ -40,6 +42,7 @@ public class Reply {
         reply.mappingPosts(posts);
         reply.content = content;
         reply.createDate = LocalDateTime.now();
+        reply.likes = 0;
 
         return reply;
     }
@@ -59,5 +62,8 @@ public class Reply {
         this.content = content;
     }
 
+    public void addReplyLikes() {
+        this.likes += 1;
+    }
 }
 
