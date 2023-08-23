@@ -1,0 +1,92 @@
+.posts-detail-container {
+  margin: 50px auto;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.posts-detail-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.posts-detail-box {
+  display: inline;
+}
+
+.posts-detail-author {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.posts-detail-date {
+  font-size: 16px;
+  color: #888;
+}
+
+.posts-detail-content {
+  margin-bottom: 20px;
+}
+
+/* ===== ABOUT REPLY ===== */
+.reply-container {
+  margin-top: 30px;
+}
+
+.reply-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reply-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.reply-item {
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+}
+
+.reply-author {
+  font-weight: bold;
+  color: #007bff; /* You can choose your preferred color */
+}
+
+/* Reply Content */
+.reply-content {
+  margin-left: 15px;
+}
+
+.reply-form {
+  margin-top: 30px;
+}
+
+.reply-input {
+  resize: none;
+  width: 95%;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.reply-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reply-btn:hover {
+  background-color: #0056b3;
+}

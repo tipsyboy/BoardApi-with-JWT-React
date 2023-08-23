@@ -4,6 +4,7 @@ import Layout from "./components/common/Layout";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Board from "./pages/board/Board";
+import PostsDetail from "./pages/posts/PostsDetail";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/free" element={<Board category="free" />}></Route>
           <Route path="/game" element={<Board category="game" />}></Route>
+          <Route path="/posts/:postsId" element={<PostsDetail />} />
         </Routes>
       </Layout>
     </Router>
