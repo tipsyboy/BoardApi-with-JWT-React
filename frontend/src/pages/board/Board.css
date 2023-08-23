@@ -1,0 +1,148 @@
+/* ===== BOARD CONTAINER ===== */
+.board-container {
+  position: relative; /* 컨테이너를 상대적으로 설정하여 내부 요소의 절대 위치 지정 가능 */
+  margin: 25px auto;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== TABLE STYLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  /* 테이블 헤더 스타일 */
+  padding: 10px;
+  background-color: #f2f2f2;
+  text-align: left;
+  font-weight: bold;
+}
+
+td,
+th {
+  /* 테이블 셀 스타일 */
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+#board-posts-title-head {
+  width: 60%;
+}
+
+tbody tr:nth-child(even) {
+  /* 짝수 행 배경색 지정 */
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  /* 마우스 호버 효과 */
+  background-color: #e6f7ff;
+  cursor: auto;
+}
+
+#posts-title-link a {
+  font-weight: bold;
+  width: 100%; /* width를 100%로 설정하여 부모 요소에 꽉 차도록 설정 */
+  white-space: nowrap; /* 글자가 너무 길어서 한 줄로 표시되도록 설정 */
+  overflow: hidden; /* 너무 긴 글자를 숨기고 오버플로우를 감춤 */
+  text-overflow: ellipsis; /* 너무 긴 글자일 경우 말줄임표로 표시 */
+  text-decoration: none;
+}
+
+#posts-title-link a:hover {
+  color: #0056b3;
+}
+
+#posts-title-link a span:first-child {
+  margin-right: 10px;
+}
+
+/* Reply Count */
+#posts-title-link span:last-child {
+  font-size: 14px;
+  color: #e57373; /* Lighter color for reply count */
+}
+
+/* ===== POST BUTTON ===== */
+.board-post-btn {
+  /* 기본 스타일 */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  /* 위치 설정 */
+  position: absolute;
+  right: 0%; /* 오른쪽 여백 조정 */
+  margin-top: 40px;
+
+  /* 그림자 효과 */
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+
+  /* 호버 효과 - 배경색 변경 */
+  transition: background-color 0.3s ease;
+
+  text-decoration: none;
+}
+
+.board-post-btn:hover {
+  background-color: #0056b3; /* 더 진한 파란색으로 변경 */
+}
+
+/* ===== PAGINATION BAR ===== */
+.board-pagination-container {
+  position: absolute;
+  right: 55%;
+  transform: translateX(50%);
+  margin-top: 3%;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+/* Pagination Item */
+.pagination-item {
+  margin: 0 5px;
+}
+
+/* Pagination Link */
+.pagination-item a {
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: bold; /* Add bold font weight */
+}
+
+/* Active Link */
+.pagination-item a.active-link,
+.pagination-item a:hover {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Previous and Next Buttons */
+.pagination-item:first-child a,
+.pagination-item:last-child a {
+  font-weight: bold;
+}
+
+/* Hide Previous and Next Buttons */
+.pagination-item:first-child a[style*="hidden"],
+.pagination-item:last-child a[style*="hidden"] {
+  display: none;
+}

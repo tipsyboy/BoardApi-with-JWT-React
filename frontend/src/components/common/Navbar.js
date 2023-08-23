@@ -28,6 +28,11 @@ const Navbar = () => {
               자유게시판
             </a>
           </li>
+          <li>
+            <a href="/game" className="navbar-item">
+              게임게시판
+            </a>
+          </li>
         </ul>
       </div>
 
