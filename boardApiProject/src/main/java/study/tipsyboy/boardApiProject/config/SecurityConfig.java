@@ -3,6 +3,7 @@ package study.tipsyboy.boardApiProject.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,6 +21,8 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtConfig jwtConfig;
+    private final String[] GET_WHITELIST = new String[] {"/api/posts/**"};
+    private final String[] POST_WHITELIST = new String[] {"/api/auth/**"};
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -44,16 +47,17 @@ public class SecurityConfig {
                 .headers()
                 .frameOptions()
                 .sameOrigin()
-                
+
                 // 요청에 대한 인증/인가 설정들
                 .and()
                 .authorizeRequests()
-                .mvcMatchers("/api/auth/**").permitAll() // 인증 Api 요청은 인증 없어도 되야함.
+                .mvcMatchers(HttpMethod.GET, GET_WHITELIST).permitAll()
+                .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll() // 인증 Api 요청은 인증 없어도 되야함.
                 .anyRequest().authenticated()
 
                 // Exception 관련 클래스들 등록
                 .and()
-                .exceptionHandling() 
+                .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 

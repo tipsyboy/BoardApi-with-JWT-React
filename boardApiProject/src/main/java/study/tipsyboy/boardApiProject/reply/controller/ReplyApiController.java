@@ -17,13 +17,13 @@ public class ReplyApiController {
 
     private final ReplyService replyService;
 
-    @PostMapping("/reply")
+    @PostMapping
     public ResponseEntity<Long> createReply(@RequestBody ReplyCreateRequestDto requestDto,
                                             Principal principal) {
         return ResponseEntity.ok(replyService.createReply(principal.getName(), requestDto));
     }
 
-    @PutMapping("/reply")
+    @PutMapping
     public ResponseEntity<Void> editReply(@Valid @RequestBody ReplyUpdateRequestDto requestDto,
                                             Principal principal) {
         replyService.updateReply(principal.getName(), requestDto);

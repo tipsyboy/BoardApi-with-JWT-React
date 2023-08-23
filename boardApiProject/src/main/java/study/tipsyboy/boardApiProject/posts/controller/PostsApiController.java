@@ -21,13 +21,20 @@ public class PostsApiController {
 
     private final PostsService postsService;
 
-    @PostMapping("/post")
+    @PostMapping
     public ResponseEntity<Long> createPosts(@RequestBody PostsCreateRequestDto requestDto,
                                             Principal principal) {
         return ResponseEntity.ok(postsService.createPosts(principal.getName(), requestDto));
     }
 
-    @GetMapping("/post/{postsId}")
+    @PutMapping
+    public ResponseEntity<Void> updatePosts(@Valid @RequestBody PostsUpdateRequestDto requestDto,
+                                            Principal principal) {
+        postsService.updatePosts(principal.getName(), requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{postsId}")
     public ResponseEntity<PostsReadResponseDto> readById(@PathVariable Long postsId) {
         return ResponseEntity.ok(postsService.findById(postsId));
     }
@@ -35,12 +42,5 @@ public class PostsApiController {
     @GetMapping("/category/{category}")
     public ResponseEntity<List<PostsReadResponseDto>> readByCategory(@PathVariable String category) {
         return ResponseEntity.ok(postsService.findPostsByCategory(category));
-    }
-
-    @PutMapping("/post")
-    public ResponseEntity<Void> updatePosts(@Valid @RequestBody PostsUpdateRequestDto requestDto,
-                                            Principal principal) {
-        postsService.updatePosts(principal.getName(), requestDto);
-        return ResponseEntity.ok().build();
     }
 }
