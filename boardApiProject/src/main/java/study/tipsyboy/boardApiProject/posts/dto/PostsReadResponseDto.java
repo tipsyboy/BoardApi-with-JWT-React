@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyReadResponseDto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class PostsReadResponseDto {
     private String category;
     private Integer likes;
     private List<ReplyReadResponseDto> replyReadResponseDtoList = new ArrayList<>();
+    private LocalDateTime createDate;
 
     public static PostsReadResponseDto from(Posts entity) {
         List<ReplyReadResponseDto> replyList = entity.getReplyList().stream()
@@ -36,6 +38,7 @@ public class PostsReadResponseDto {
                 entity.getContent(),
                 entity.getCategory().getKey(),
                 entity.getLikes(),
-                replyList);
+                replyList,
+                entity.getCreateDate());
     }
 }
