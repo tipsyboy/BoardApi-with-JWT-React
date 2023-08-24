@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // useParams 추가
 import useUnauthorizedApiCall from "../../components/apiCall/useUnauthorizedApiCall";
+import useAuthorizedApiCall from "../../components/apiCall/useAuthorizedApiCall";
 import "./PostsDetail.css";
 
 const formatDateString = (dateString) => {
@@ -25,6 +26,7 @@ const PostsDetail = () => {
   const [posts, setPosts] = useState(null);
   const [newReply, setNewReply] = useState(""); // 새로 작성한 댓글 내용
   const { unAuthGet } = useUnauthorizedApiCall();
+  const { authPost } = useAuthorizedApiCall();
 
   useEffect(() => {
     unAuthGet(`/api/posts/${postsId}`)
@@ -32,13 +34,38 @@ const PostsDetail = () => {
         setPosts(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   }, [postsId]);
 
-  // TODO: Authorized Call 관련
-  const handleReplyKeyDown = () => {};
-  const handleReplySubmit = () => {};
+  const handleReplyKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevent form submission
+      handleReplySubmit(e); // Call your submit function
+    }
+  };
+
+  const handleReplySubmit = (e) => {
+    e.preventDefault();
+
+    const requestData = {
+      postsId: postsId,
+      content: newReply,
+    };
+
+    authPost("/api/replies", requestData)
+      .then((response) => {
+        // 새로운 댓글이 추가된 데이터로 갱신
+        setPosts((prevPost) => ({
+          ...prevPost,
+          replyList: [...prevPost.replyList, response.data],
+        }));
+        setNewReply(""); // 댓글 작성 폼 초기화
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   if (!posts) {
     return <p>Loading..</p>;

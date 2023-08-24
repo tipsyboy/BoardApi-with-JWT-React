@@ -18,7 +18,6 @@ const useAuthorizedApiCall = () => {
   });
 
   const authPost = async (url, requestData) => {
-    console.log(accessToken);
     const response = await authorizedApiCall.post(url, requestData);
     return response;
   };
