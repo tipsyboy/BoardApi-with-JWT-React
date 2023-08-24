@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsUtils;
 import study.tipsyboy.boardApiProject.security.jwt.config.JwtConfig;
 import study.tipsyboy.boardApiProject.security.jwt.exception.JwtAccessDeniedHandler;
 import study.tipsyboy.boardApiProject.security.jwt.exception.JwtAuthenticationEntryPoint;
@@ -53,6 +54,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, GET_WHITELIST).permitAll()
                 .mvcMatchers(HttpMethod.POST, POST_WHITELIST).permitAll() // 인증 Api 요청은 인증 없어도 되야함.
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // preflight 문제 일단 이렇게 해결
                 .anyRequest().authenticated()
 
                 // Exception 관련 클래스들 등록

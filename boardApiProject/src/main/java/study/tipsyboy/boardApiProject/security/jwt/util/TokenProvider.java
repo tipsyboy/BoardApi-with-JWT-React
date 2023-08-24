@@ -83,15 +83,11 @@ public class TokenProvider {
     }
 
     private Claims getClaimsBodyByToken(String token) {
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey(accessSecretKey))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
-        }
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey(accessSecretKey))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Key getSigningKey(String secretKey) {

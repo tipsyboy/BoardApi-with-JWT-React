@@ -23,7 +23,7 @@ public class PostsReadResponseDto {
     private String content;
     private String category;
     private Integer likes;
-    private List<ReplyReadResponseDto> replyReadResponseDtoList = new ArrayList<>();
+    private List<ReplyReadResponseDto> replyList = new ArrayList<>();
     private LocalDateTime createDate;
 
     public static PostsReadResponseDto from(Posts entity) {
