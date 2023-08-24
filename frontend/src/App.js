@@ -5,6 +5,7 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import Board from "./pages/board/Board";
 import PostsDetail from "./pages/posts/PostsDetail";
+import PostsForm from "./pages/posts/PostsForm";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/free" element={<Board category="free" />}></Route>
           <Route path="/game" element={<Board category="game" />}></Route>
-          <Route path="/posts/:postsId" element={<PostsDetail />} />
+          <Route path="/posts/:postsId" element={<PostsDetail />}></Route>
+          <Route path="/post" element={<PostsForm />}></Route>
         </Routes>
       </Layout>
     </Router>
