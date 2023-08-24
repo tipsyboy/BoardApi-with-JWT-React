@@ -14,6 +14,7 @@ import study.tipsyboy.boardApiProject.posts.exception.PostsExceptionType;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 import study.tipsyboy.boardApiProject.reply.domain.ReplyRepository;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyCreateRequestDto;
+import study.tipsyboy.boardApiProject.reply.dto.ReplyReadResponseDto;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyUpdateRequestDto;
 import study.tipsyboy.boardApiProject.reply.exception.ReplyException;
 import study.tipsyboy.boardApiProject.reply.exception.ReplyExceptionType;
@@ -28,7 +29,7 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
 
     @Transactional
-    public Long createReply(String email, ReplyCreateRequestDto requestDto) {
+    public ReplyReadResponseDto createReply(String email, ReplyCreateRequestDto requestDto) {
 
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new AuthException(AuthExceptionType.NOT_FOUND_EMAIL));
@@ -39,7 +40,7 @@ public class ReplyService {
         Reply reply = Reply.createReply(member, posts, requestDto.getContent());
         replyRepository.save(reply);
 
-        return reply.getId();
+        return ReplyReadResponseDto.from(reply);
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyCreateRequestDto;
+import study.tipsyboy.boardApiProject.reply.dto.ReplyReadResponseDto;
 import study.tipsyboy.boardApiProject.reply.dto.ReplyUpdateRequestDto;
 import study.tipsyboy.boardApiProject.reply.service.ReplyService;
 
@@ -18,8 +19,8 @@ public class ReplyApiController {
     private final ReplyService replyService;
 
     @PostMapping
-    public ResponseEntity<Long> createReply(@RequestBody ReplyCreateRequestDto requestDto,
-                                            Principal principal) {
+    public ResponseEntity<ReplyReadResponseDto> createReply(@RequestBody ReplyCreateRequestDto requestDto,
+                                                            Principal principal) {
         return ResponseEntity.ok(replyService.createReply(principal.getName(), requestDto));
     }
 
