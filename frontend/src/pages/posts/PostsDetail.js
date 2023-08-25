@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // useParams 추가
-import useUnauthorizedApiCall from "../../components/apiCall/useUnauthorizedApiCall";
-import useAuthorizedApiCall from "../../components/apiCall/useAuthorizedApiCall";
+import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
+import useAuthorizedApiCall from "../../components/auth/useAuthorizedApiCall";
+import useCurrentUser from "../../components/auth/useCurrentUser";
 import "./PostsDetail.css";
 
 const formatDateString = (dateString) => {
@@ -27,6 +28,7 @@ const PostsDetail = () => {
   const [newReply, setNewReply] = useState(""); // 새로 작성한 댓글 내용
   const { unAuthGet } = useUnauthorizedApiCall();
   const { authPost } = useAuthorizedApiCall();
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     unAuthGet(`/api/posts/${postsId}`)
@@ -82,6 +84,11 @@ const PostsDetail = () => {
       </div>
       <p className="posts-detail-content">{posts.content}</p>
 
+      <div className="edit-delete-buttons">
+        <button>수정</button>
+        <button>삭제</button>
+      </div>
+
       <div className="reply-container">
         <h4 className="reply-title">전체 댓글 {posts.replyList.length}개</h4>
         <ul className="reply-list">
@@ -89,6 +96,10 @@ const PostsDetail = () => {
             <li className="reply-item" key={reply.replyId}>
               <span className="reply-author">{reply.nickname} </span>
               <span className="reply-content">{reply.content}</span>
+              <div className="edit-delete-buttons">
+                <button>수정</button>
+                <button>삭제</button>
+              </div>
             </li>
           ))}
         </ul>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import useUnauthorizedApiCall from "../../components/apiCall/useUnauthorizedApiCall";
+import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {

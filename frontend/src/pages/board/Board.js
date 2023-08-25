@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useUnauthorizedApiCall from "../../components/apiCall/useUnauthorizedApiCall";
+import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
 import "./Board.css";
 
 const Board = (props) => {
@@ -25,7 +25,7 @@ const Board = (props) => {
           <tr>
             <th id="board-posts-title-head">제목</th>
             <th>작성자</th>
-            <th>작성일지</th>
+            <th>작성일시</th>
           </tr>
         </thead>
 
@@ -36,7 +36,7 @@ const Board = (props) => {
                 <span>
                   <Link to={`/posts/${posts.id}`}>
                     <span>{posts.title}</span>
-                    {/* <span>{posts.replyList.length}</span>  */}
+                    <span>{posts.replyList.length}</span>
                   </Link>
                 </span>
               </td>

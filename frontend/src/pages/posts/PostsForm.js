@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useAuthorizedApiCall from "../../components/apiCall/useAuthorizedApiCall";
+import useAuthorizedApiCall from "../../components/auth/useAuthorizedApiCall";
 import { useNavigate } from "react-router-dom";
 import "./PostsForm.css";
 
