@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ReplyReadResponseDto {
 
     private Long replyId;
+    private String email;
     private String nickname;
     private String content;
     private LocalDateTime createDate;
@@ -22,6 +23,7 @@ public class ReplyReadResponseDto {
     public static ReplyReadResponseDto from(Reply entity) {
         return new ReplyReadResponseDto(
                 entity.getId(),
+                entity.getMember().getEmail(),
                 entity.getMember().getNickname(),
                 entity.getContent(),
                 entity.getCreateDate(),
