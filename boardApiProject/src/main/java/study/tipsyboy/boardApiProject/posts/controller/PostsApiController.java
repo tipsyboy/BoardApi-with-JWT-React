@@ -34,6 +34,13 @@ public class PostsApiController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deletePosts(@RequestParam("postsId") Long postsId,
+                                            Principal principal) {
+        postsService.delete(principal.getName(), postsId);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{postsId}")
     public ResponseEntity<PostsReadResponseDto> readById(@PathVariable Long postsId) {
         return ResponseEntity.ok(postsService.findById(postsId));

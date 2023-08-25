@@ -7,7 +7,6 @@ import study.tipsyboy.boardApiProject.auth.exception.AuthException;
 import study.tipsyboy.boardApiProject.auth.exception.AuthExceptionType;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.member.domain.MemberRepository;
-import study.tipsyboy.boardApiProject.member.dto.MemberProfileUpdateDto;
 import study.tipsyboy.boardApiProject.posts.domain.Category;
 import study.tipsyboy.boardApiProject.posts.domain.Posts;
 import study.tipsyboy.boardApiProject.posts.domain.PostsRepository;
@@ -70,5 +69,17 @@ public class PostsService {
                 requestDto.getTitle(),
                 requestDto.getContent(),
                 Category.getCategoryByKey(requestDto.getCategory()));
+    }
+
+    @Transactional
+    public void delete(String email, Long postsId) {
+        Posts posts = postsRepository.findById(postsId)
+                .orElseThrow(() -> new PostsException(PostsExceptionType.NOT_FOUND_POSTS));
+
+        if (!posts.getMember().getEmail().equals(email)) {
+            throw new PostsException(PostsExceptionType.BAD_REQUEST_AUTHORIZED);
+        }
+
+        postsRepository.delete(posts);
     }
 }

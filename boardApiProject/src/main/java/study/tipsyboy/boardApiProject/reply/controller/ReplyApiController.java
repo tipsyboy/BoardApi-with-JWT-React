@@ -30,4 +30,11 @@ public class ReplyApiController {
         replyService.updateReply(principal.getName(), requestDto);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteReply(@RequestParam("replyId") Long replyId,
+                                            Principal principal) {
+        replyService.delete(principal.getName(), replyId);
+        return ResponseEntity.ok().build();
+    }
 }

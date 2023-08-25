@@ -55,4 +55,15 @@ public class ReplyService {
         reply.update(requestDto.getContent());
     }
 
+    @Transactional
+    public void delete(String email, Long replyId) {
+        Reply reply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new ReplyException(ReplyExceptionType.REPLY_NOT_FOUND));
+
+        if (!reply.getMember().getEmail().equals(email)) {
+            throw new ReplyException(ReplyExceptionType.BAD_REQUEST_AUTHORIZED);
+        }
+
+        replyRepository.delete(reply);
+    }
 }
