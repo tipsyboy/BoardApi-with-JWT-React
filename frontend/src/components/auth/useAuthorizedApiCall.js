@@ -22,7 +22,17 @@ const useAuthorizedApiCall = () => {
     return response;
   };
 
-  return { authPost };
+  const authPut = async (url, requestData) => {
+    const response = await authorizedApiCall.put(url, requestData);
+    return response;
+  };
+
+  const authDelete = async (url) => {
+    const response = await authorizedApiCall.delete(url);
+    return response;
+  };
+
+  return { authPost, authPut, authDelete };
 };
 
 export default useAuthorizedApiCall;

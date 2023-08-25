@@ -6,6 +6,7 @@ import Signup from "./pages/auth/Signup";
 import Board from "./pages/board/Board";
 import PostsDetail from "./pages/posts/PostsDetail";
 import PostsForm from "./pages/posts/PostsForm";
+import PostsUpdate from "./pages/posts/PostsUpdate";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/game" element={<Board category="game" />}></Route>
           <Route path="/posts/:postsId" element={<PostsDetail />}></Route>
           <Route path="/post" element={<PostsForm />}></Route>
+          <Route path="/posts/edit/:postsId" element={<PostsUpdate />}></Route>
         </Routes>
       </Layout>
     </Router>

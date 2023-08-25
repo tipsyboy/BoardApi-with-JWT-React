@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // useParams 추가
+import { useNavigate } from "react-router-dom";
 import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
 import useAuthorizedApiCall from "../../components/auth/useAuthorizedApiCall";
 import useCurrentUser from "../../components/auth/useCurrentUser";
+import ReplyList from "../reply/ReplyList";
+import ReplyForm from "../reply/ReplyForm";
 import "./PostsDetail.css";
 
 const formatDateString = (dateString) => {
@@ -23,11 +26,11 @@ const formatDateString = (dateString) => {
 
 const PostsDetail = () => {
   const pathParam = useParams();
+  const navigate = useNavigate();
   const postsId = pathParam.postsId;
   const [posts, setPosts] = useState(null);
-  const [newReply, setNewReply] = useState(""); // 새로 작성한 댓글 내용
   const { unAuthGet } = useUnauthorizedApiCall();
-  const { authPost } = useAuthorizedApiCall();
+  const { authDelete } = useAuthorizedApiCall();
   const currentUser = useCurrentUser();
 
   useEffect(() => {
@@ -40,33 +43,22 @@ const PostsDetail = () => {
       });
   }, [postsId]);
 
-  const handleReplyKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevent form submission
-      handleReplySubmit(e); // Call your submit function
-    }
+  const handleEditClick = () => {
+    navigate(`/posts/edit/${postsId}`);
   };
 
-  const handleReplySubmit = (e) => {
-    e.preventDefault();
-
-    const requestData = {
-      postsId: postsId,
-      content: newReply,
-    };
-
-    authPost("/api/replies", requestData)
-      .then((response) => {
-        // 새로운 댓글이 추가된 데이터로 갱신
-        setPosts((prevPost) => ({
-          ...prevPost,
-          replyList: [...prevPost.replyList, response.data],
-        }));
-        setNewReply(""); // 댓글 작성 폼 초기화
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleDelete = () => {
+    const confirmed = window.confirm("게시글을 삭제하시겠습니까?");
+    if (confirmed) {
+      authDelete(`/api/posts?postsId=${postsId}`)
+        .then(() => {
+          alert("게시글이 삭제되었습니다.");
+          navigate(`/${posts.category}`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   if (!posts) {
@@ -84,39 +76,15 @@ const PostsDetail = () => {
       </div>
       <p className="posts-detail-content">{posts.content}</p>
 
-      <div className="edit-delete-buttons">
-        <button>수정</button>
-        <button>삭제</button>
-      </div>
+      {currentUser && currentUser.sub === posts.email && (
+        <div className="edit-delete-buttons">
+          <button onClick={handleEditClick}>수정</button>
+          <button onClick={handleDelete}>삭제</button>
+        </div>
+      )}
 
-      <div className="reply-container">
-        <h4 className="reply-title">전체 댓글 {posts.replyList.length}개</h4>
-        <ul className="reply-list">
-          {posts.replyList.map((reply) => (
-            <li className="reply-item" key={reply.replyId}>
-              <span className="reply-author">{reply.nickname} </span>
-              <span className="reply-content">{reply.content}</span>
-              <div className="edit-delete-buttons">
-                <button>수정</button>
-                <button>삭제</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <form className="reply-form" onSubmit={handleReplySubmit}>
-        <textarea
-          className="reply-input"
-          placeholder="댓글을 입력하세요."
-          value={newReply}
-          onChange={(e) => setNewReply(e.target.value)}
-          onKeyDown={handleReplyKeyDown} // Add onKeyDown event
-        ></textarea>
-        <button type="submit" className="reply-btn">
-          댓글 작성
-        </button>
-      </form>
+      <ReplyList posts={posts} currentUser={currentUser} />
+      <ReplyForm posts={posts} setPosts={setPosts} postsId={postsId} />
     </div>
   );
 };
