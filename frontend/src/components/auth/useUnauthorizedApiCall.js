@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 
+const BASE_URL = "http://localhost:8080";
 const unauthorizedApiCall = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: BASE_URL,
 });
 
 const useUnauthorizedApiCall = () => {

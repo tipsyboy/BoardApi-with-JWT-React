@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const useAuthorizedApiCall = () => {
+  const BASE_URL = "http://localhost:8080";
   const TOKEN_TYPE = "Bearer";
   const [accessToken, setAccessToken] = useState(
     JSON.parse(localStorage.getItem("accessToken"))
@@ -11,7 +12,7 @@ const useAuthorizedApiCall = () => {
   );
 
   const authorizedApiCall = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: BASE_URL,
     headers: {
       Authorization: `${TOKEN_TYPE} ${accessToken}`,
     },

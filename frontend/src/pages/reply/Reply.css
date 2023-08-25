@@ -57,3 +57,18 @@
 .reply-btn:hover {
   background-color: #0056b3;
 }
+
+.reply-edit-input {
+  resize: none;
+  width: 80%; /* 입력 필드의 너비를 100%로 설정 */
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: #f2f2f2;
+  font-size: 14px; /* 원하는 폰트 사이즈로 조정 */
+}
+
+.reply-edit-input:focus {
+  outline: none;
+  border-bottom: 1px solid #0056b3; /* 포커스 시 밑줄 색 변경 */
+}

@@ -83,7 +83,7 @@ const PostsDetail = () => {
         </div>
       )}
 
-      <ReplyList posts={posts} currentUser={currentUser} />
+      <ReplyList posts={posts} setPosts={setPosts} currentUser={currentUser} />
       <ReplyForm posts={posts} setPosts={setPosts} postsId={postsId} />
     </div>
   );
