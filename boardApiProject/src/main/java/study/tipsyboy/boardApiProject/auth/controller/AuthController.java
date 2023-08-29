@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import study.tipsyboy.boardApiProject.auth.dto.LoginRequestDto;
 import study.tipsyboy.boardApiProject.auth.dto.LoginResponseDto;
 import study.tipsyboy.boardApiProject.auth.dto.SignupRequestDto;
+import study.tipsyboy.boardApiProject.auth.dto.TokenReissueRequestDto;
 import study.tipsyboy.boardApiProject.auth.service.AuthService;
 
 @RequestMapping("/api/auth")
@@ -27,5 +28,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<LoginResponseDto> reissue(@RequestBody TokenReissueRequestDto requestDto) {
+        return ResponseEntity.ok(authService.reissue(requestDto));
     }
 }
