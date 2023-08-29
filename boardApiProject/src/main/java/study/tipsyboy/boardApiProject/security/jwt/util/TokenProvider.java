@@ -44,7 +44,7 @@ public class TokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = getClaimsBodyByToken(token);
+        Claims claims = getClaimsBodyByToken(token, accessSecretKey); // 토큰과 시크릿 키를 사용해서 토큰 해석
 
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
@@ -57,6 +57,10 @@ public class TokenProvider {
 
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+
+    public Claims parseRefreshToken(String token) {
+        return getClaimsBodyByToken(token, refreshSecretKey);
     }
 
 
@@ -82,9 +86,9 @@ public class TokenProvider {
                 .compact();
     }
 
-    private Claims getClaimsBodyByToken(String token) {
+    private Claims getClaimsBodyByToken(String token, String secretKey) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey(accessSecretKey))
+                .setSigningKey(getSigningKey(secretKey))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -94,32 +98,5 @@ public class TokenProvider {
         byte[] bytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(bytes);
     }
-
-
-//    public boolean isValidToken(String token) {
-//        // parseClaimsJws 메서드를 호출하면 기본적인 포맷을 검증하고, jwt 를 생성할 때 사용했던 secretKey 로 서명했을 때
-//        // 토큰에 포함된 signature 와 동일한 signature 가 생성되는지 확인합니다.
-//        // Header.Payload 에 대해서 동일한 secretKey 로 서명했을 때 생성된 signature 는 항상 같아야 합니다.
-//        // 만약 다르다면 Header.Payload의 값이 변조되었다고 판단할 수 있겠죠.
-//        // https://targetcoders.com/jjwt-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95/
-//        try {
-//            Jwts.parserBuilder()
-//                    .setSigningKey(getSigningKey(accessSecretKey))
-//                    .build()
-//                    .parseClaimsJws(token);
-//            return true;
-//        } catch (SecurityException e) {
-//            log.info("잘못된 JWT 서명입니다. SecurityException={}", token); // io.jsonwebtoken.security.SecurityException 여기 Exception 을 잘 모르겠다.
-//        } catch (MalformedJwtException e) {
-//            log.info("잘못된 JWT 서명입니다. MalformedJwtException={}", token);
-//        } catch (ExpiredJwtException e) {
-//            log.info("만료된 토큰입니다. ExpiredJwtException={}", token);
-//        } catch (UnsupportedJwtException e) {
-//            log.info("지원하지 않는 토큰입니다. UnsupportedJwtException={}", token);
-//        } catch (IllegalArgumentException e) {
-//            log.info("토큰이 잘못되었습니다. IllegalArgumentException={}", token);
-//        }
-//        return false;
-//    }
 
 }

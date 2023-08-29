@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import study.tipsyboy.boardApiProject.security.jwt.exception.JwtExceptionType;
 import study.tipsyboy.boardApiProject.security.jwt.util.TokenProvider;
 
 import javax.servlet.FilterChain;
@@ -45,14 +46,19 @@ public class JwtCustomFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (SecurityException e) {
+            request.setAttribute("exception", JwtExceptionType.INVALID_TOKEN.getCode());
             log.error("잘못된 JWT 서명입니다. SecurityException={}", token); // io.jsonwebtoken.security.SecurityException 여기 Exception 을 잘 모르겠다.
         } catch (MalformedJwtException e) {
+            request.setAttribute("exception", JwtExceptionType.INVALID_TOKEN.getCode());
             log.error("잘못된 JWT 서명입니다. MalformedJwtException={}", token);
         } catch (ExpiredJwtException e) {
+            request.setAttribute("exception", JwtExceptionType.EXPIRED_TOKEN.getCode());
             log.error("이미 만료된 토큰입니다. ExpiredJwtException={}", token);
         } catch (UnsupportedJwtException e) {
+            request.setAttribute("exception", JwtExceptionType.UNSUPPORTED_TOKEN.getCode());
             log.error("지원하지 않는 토큰입니다. UnsupportedJwtException={}", token);
         } catch (IllegalArgumentException e) {
+            request.setAttribute("exception", JwtExceptionType.INVALID_TOKEN.getCode());
             log.error("토큰이 잘못되었습니다. IllegalArgumentException={}", token);
         }
 
