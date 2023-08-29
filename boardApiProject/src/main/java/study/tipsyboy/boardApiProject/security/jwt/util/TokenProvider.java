@@ -63,6 +63,16 @@ public class TokenProvider {
         return getClaimsBodyByToken(token, refreshSecretKey);
     }
 
+    // JWT 유효성을 검증한다.
+    public boolean isValidToken(String token) {
+        Jwts.parserBuilder()
+                .setSigningKey(getSigningKey(accessSecretKey))
+                .build()
+                .parseClaimsJws(token); // 만약 유효한 토큰이 아닌 경우에 여기서 에러가 터짐
+        // -> 그렇게되면, isValidToken()을 호출한 위치에서 리턴 값을 받는 대신에 예외를 받으니, 예외처리 해주면됨.
+
+        return true; // 파싱이 이루어진 경우에는 문제가 없는 경우
+    }
 
     // ===== ===== //
     private String createToken(Authentication authentication,
@@ -87,11 +97,15 @@ public class TokenProvider {
     }
 
     private Claims getClaimsBodyByToken(String token, String secretKey) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey(secretKey))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey(secretKey))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
     private Key getSigningKey(String secretKey) {
