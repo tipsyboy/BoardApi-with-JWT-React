@@ -28,3 +28,9 @@
 .navbar-item:hover {
   color: #ff9900;
 }
+
+.navbar-logout-button {
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+}

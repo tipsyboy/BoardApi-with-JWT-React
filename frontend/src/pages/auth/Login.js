@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { unAuthPost } = useUnauthorizedApiCall();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -29,7 +27,7 @@ const Login = () => {
           "refreshToken",
           JSON.stringify(loginData.refreshToken)
         );
-        navigate("/");
+        window.location.href = "/";
       })
       .catch((error) => {
         console.error(error);
