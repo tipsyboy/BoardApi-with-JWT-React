@@ -21,8 +21,6 @@ const ReplyForm = ({ posts, setPosts }) => {
       content: newReply,
     };
 
-    console.log(requestData); // TODO: 삭제
-
     authPost("/api/replies", requestData)
       .then((response) => {
         // 새로운 댓글이 추가된 데이터로 갱신
