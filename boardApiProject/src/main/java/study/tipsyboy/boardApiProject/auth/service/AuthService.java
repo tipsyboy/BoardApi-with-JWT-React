@@ -1,6 +1,5 @@
 package study.tipsyboy.boardApiProject.auth.service;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +18,6 @@ import study.tipsyboy.boardApiProject.auth.exception.AuthExceptionType;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.member.domain.MemberRepository;
 import study.tipsyboy.boardApiProject.member.domain.MemberRole;
-import study.tipsyboy.boardApiProject.security.jwt.exception.JwtExceptionType;
 import study.tipsyboy.boardApiProject.security.jwt.util.TokenProvider;
 
 @Transactional(readOnly = true)
@@ -81,5 +79,11 @@ public class AuthService {
         refreshTokenRepository.save(refreshToken.updateToken(newRefreshToken));
 
         return new LoginResponseDto(accessToken, newRefreshToken);
+    }
+
+    @Transactional
+    public void deleteRefreshToken(String refreshToken) {
+        refreshTokenRepository.findByToken(refreshToken)
+                .ifPresent(token -> refreshTokenRepository.delete(token));
     }
 }

@@ -38,6 +38,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                              JwtExceptionType exceptionCode,
                              String path) throws IOException {
 
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("utf-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
