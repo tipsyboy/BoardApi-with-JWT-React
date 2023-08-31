@@ -1,22 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import useUnauthorizedApiCall from "../../components/auth/useUnauthorizedApiCall";
+import PageBar from "./PageBar";
 import "./Board.css";
 
 const Board = (props) => {
-  const requestUrl = `/api/posts/category/` + props.category;
+  const [searchParams] = useSearchParams();
+  const pageValue = searchParams.get("page");
+  const [page, setPage] = useState(pageValue === null ? 1 : Number(pageValue));
+  const [totalPages, setTotalPages] = useState(0);
+  const requestUrl = `/api/posts/category/${props.category}`;
   const [postsList, setPostsList] = useState([]);
   const { unAuthGet } = useUnauthorizedApiCall();
 
   useEffect(() => {
-    unAuthGet(requestUrl)
+    const urlWithPage = `${requestUrl}?page=${page}`;
+
+    unAuthGet(urlWithPage)
       .then((response) => {
-        setPostsList(response.data);
+        setPostsList(response.data.content);
+        setTotalPages(response.data.totalPages);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
-  }, [requestUrl]);
+  }, [requestUrl, page]);
+
+  const handlePageChange = (newPage) => {
+    console.log(newPage);
+    setPage(newPage);
+  };
 
   return (
     <div className="board-container">
@@ -41,12 +54,28 @@ const Board = (props) => {
                 </span>
               </td>
               <td>{posts.nickname}</td>
-              <td>{new Date(posts.createDate).toLocaleDateString()}</td>
+              <td>
+                {new Date(posts.createDate).toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                  hour12: false,
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
+      <PageBar
+        currentPage={page}
+        category={props.category}
+        totalPages={totalPages} // You need to calculate the total pages
+        onPageChange={handlePageChange}
+      />
       <a className="board-post-btn" href="/post">
         글쓰기
       </a>

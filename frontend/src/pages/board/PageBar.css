@@ -1,0 +1,49 @@
+/* ===== PAGINATION BAR ===== */
+.board-pagination-container {
+  position: absolute;
+  right: 55%;
+  transform: translateX(50%);
+  margin-top: 3%;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+/* Pagination Item */
+.pagination-item {
+  margin: 0 5px;
+}
+
+/* Pagination Link */
+.pagination-item a {
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: bold; /* Add bold font weight */
+}
+
+/* Active Link */
+.pagination-item.current-page a {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Previous and Next Buttons */
+.pagination-item:first-child a,
+.pagination-item:last-child a {
+  font-weight: bold;
+}
+
+/* Hide Previous and Next Buttons */
+.pagination-item:first-child a[style*="hidden"],
+.pagination-item:last-child a[style*="hidden"] {
+  display: none;
+}

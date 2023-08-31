@@ -28,7 +28,6 @@ const Navbar = () => {
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("accessToken");
     setAccessToken(storedAccessToken);
-    console.log(storedAccessToken);
   }, []);
 
   return (
@@ -36,19 +35,19 @@ const Navbar = () => {
       <div className="navbar-left">
         <ul className="navbar-items-container">
           <li>
-            <Link to="/" className="navbar-item">
+            <a href="/" className="navbar-item">
               Home
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to="/free" className="navbar-item">
+            <a href="/free" className="navbar-item">
               자유게시판
-            </Link>
+            </a>
           </li>
           <li>
-            <Link to="/game" className="navbar-item">
+            <a href="/game" className="navbar-item">
               게임게시판
-            </Link>
+            </a>
           </li>
         </ul>
       </div>
@@ -57,9 +56,9 @@ const Navbar = () => {
         <ul className="navbar-items-container">
           {accessToken ? (
             <li>
-              <Link to="/profile" className="navbar-item">
+              <a href="/profile" className="navbar-item">
                 Profile
-              </Link>
+              </a>
               <button
                 className="navbar-item navbar-logout-button"
                 onClick={handleLogout}
@@ -70,14 +69,14 @@ const Navbar = () => {
           ) : (
             <>
               <li>
-                <Link to="/login" className="navbar-item">
+                <a href="/login" className="navbar-item">
                   Login
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/signup" className="navbar-item">
+                <a href="/signup" className="navbar-item">
                   Signup
-                </Link>
+                </a>
               </li>
             </>
           )}
