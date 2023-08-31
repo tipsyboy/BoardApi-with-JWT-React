@@ -1,6 +1,9 @@
 package study.tipsyboy.boardApiProject.posts.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.tipsyboy.boardApiProject.auth.exception.AuthException;
@@ -16,6 +19,7 @@ import study.tipsyboy.boardApiProject.posts.dto.PostsUpdateRequestDto;
 import study.tipsyboy.boardApiProject.posts.exception.PostsException;
 import study.tipsyboy.boardApiProject.posts.exception.PostsExceptionType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +30,7 @@ public class PostsService {
 
     private final MemberRepository memberRepository;
     private final PostsRepository postsRepository;
+    private static final Integer POSTS_PER_PAGE = 15;
 
     @Transactional
     public Long createPosts(String email, PostsCreateRequestDto requestDto) {
@@ -50,10 +55,23 @@ public class PostsService {
         return PostsReadResponseDto.from(posts);
     }
 
-    public List<PostsReadResponseDto> findPostsByCategory(String category) {
-        return postsRepository.findByCategory(Category.getCategoryByKey(category)).stream()
-                .map(Posts -> PostsReadResponseDto.from(Posts))
-                .collect(Collectors.toList());
+    public Page<PostsReadResponseDto> findPostsByCategory(String category, int page) {
+
+        int convertPage = convertToStartingIndexOne(page);
+
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        PageRequest pageable = PageRequest.of(convertPage, POSTS_PER_PAGE, Sort.by(sorts));
+
+        return postsRepository.findByCategory(Category.getCategoryByKey(category), pageable)
+                .map(Posts -> PostsReadResponseDto.from(Posts));
+    }
+
+    private int convertToStartingIndexOne(int page) {
+        if (page <= 0) {
+            return 0;
+        }
+        return page - 1;
     }
 
     @Transactional

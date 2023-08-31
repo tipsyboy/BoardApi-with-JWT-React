@@ -2,6 +2,7 @@ package study.tipsyboy.boardApiProject.posts.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import study.tipsyboy.boardApiProject.posts.dto.PostsCreateRequestDto;
@@ -11,9 +12,7 @@ import study.tipsyboy.boardApiProject.posts.service.PostsService;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 
-@Slf4j
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
 @RestController
@@ -47,7 +46,9 @@ public class PostsApiController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<PostsReadResponseDto>> readByCategory(@PathVariable String category) {
-        return ResponseEntity.ok(postsService.findPostsByCategory(category));
+    public ResponseEntity<Page<PostsReadResponseDto>> readByCategory(@PathVariable String category,
+                                                                     @RequestParam(value = "page", defaultValue = "0") int page) {
+
+        return ResponseEntity.ok(postsService.findPostsByCategory(category, page));
     }
 }

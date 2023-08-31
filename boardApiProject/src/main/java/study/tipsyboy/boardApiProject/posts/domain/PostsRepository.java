@@ -1,9 +1,10 @@
 package study.tipsyboy.boardApiProject.posts.domain;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Posts, Long> {
-    List<Posts> findByCategory(Category category);
+    Page<Posts> findByCategory(Category category, Pageable pageable);
 }
