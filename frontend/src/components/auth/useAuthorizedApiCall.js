@@ -15,6 +15,7 @@ const useAuthorizedApiCall = () => {
     baseURL: BASE_URL,
     headers: {
       Authorization: `${TOKEN_TYPE} ${accessToken}`,
+      "Content-Type": "application/json",
     },
   });
 
@@ -46,7 +47,8 @@ const useAuthorizedApiCall = () => {
         setRefreshToken(response.data.refreshToken);
 
         error.config.retries.count += 1;
-        authorizedApiCall.defaults.headers.common.Authorization = `${TOKEN_TYPE} ${response.data.accessToken}`; // update the accessToken
+        // update the accessToken
+        authorizedApiCall.defaults.headers.common.Authorization = `${TOKEN_TYPE} ${response.data.accessToken}`;
         error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
 
         return authorizedApiCall.request(error.config);
@@ -54,6 +56,8 @@ const useAuthorizedApiCall = () => {
         return Promise.reject(reissueError);
       }
     }
+
+    return Promise.reject(error);
   };
 
   authorizedApiCall.interceptors.response.use(

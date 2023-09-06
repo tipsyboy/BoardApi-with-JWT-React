@@ -7,6 +7,7 @@ import useCurrentUser from "../../components/auth/useCurrentUser";
 import ReplyList from "../reply/ReplyList";
 import ReplyForm from "../reply/ReplyForm";
 import "./PostsDetail.css";
+import PostsLikes from "./PostsLikes";
 
 const formatDateString = (dateString) => {
   const createDate = new Date(dateString);
@@ -30,7 +31,7 @@ const PostsDetail = () => {
   const postsId = pathParam.postsId;
   const [posts, setPosts] = useState(null);
   const { unAuthGet } = useUnauthorizedApiCall();
-  const { authDelete } = useAuthorizedApiCall();
+  const { authDelete, authPost } = useAuthorizedApiCall();
   const currentUser = useCurrentUser();
 
   useEffect(() => {
@@ -82,6 +83,12 @@ const PostsDetail = () => {
           <button onClick={handleDelete}>삭제</button>
         </div>
       )}
+
+      <PostsLikes
+        currentUser={currentUser}
+        authPost={authPost}
+        posts={posts}
+      ></PostsLikes>
 
       <ReplyList posts={posts} setPosts={setPosts} currentUser={currentUser} />
       <ReplyForm posts={posts} setPosts={setPosts} postsId={postsId} />

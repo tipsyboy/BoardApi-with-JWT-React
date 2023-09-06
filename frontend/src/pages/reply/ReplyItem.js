@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import useAuthorizedApiCall from "../../components/auth/useAuthorizedApiCall";
+import ReplyLikes from "./ReplyLikes";
 import "./Reply.css";
 
-const ReplyItem = ({ reply, currentUser, onUpdateReply, postsId }) => {
+const ReplyItem = ({ reply, currentUser, onUpdateReply }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { authPut, authDelete } = useAuthorizedApiCall();
+  const { authPost, authPut, authDelete } = useAuthorizedApiCall();
   const [editedContent, setEditedContent] = useState(reply.content);
 
   const handleEdit = () => {
@@ -59,7 +60,7 @@ const ReplyItem = ({ reply, currentUser, onUpdateReply, postsId }) => {
       ) : (
         <span className="reply-content">{reply.content}</span>
       )}
-      {currentUser && currentUser.sub === reply.email && (
+      {currentUser && currentUser.sub === reply.email ? (
         <div className="edit-delete-buttons">
           {isEditing ? (
             <button onClick={handleEdit}>완료</button>
@@ -69,6 +70,20 @@ const ReplyItem = ({ reply, currentUser, onUpdateReply, postsId }) => {
               <button onClick={handleDelete}>삭제</button>
             </>
           )}
+          <ReplyLikes
+            authPost={authPost}
+            currentUser={currentUser}
+            reply={reply}
+          ></ReplyLikes>
+        </div>
+      ) : (
+        // 소유권이 없을 때는 추천 버튼만 표시
+        <div className="edit-delete-buttons">
+          <ReplyLikes
+            authPost={authPost}
+            currentUser={currentUser}
+            reply={reply}
+          ></ReplyLikes>
         </div>
       )}
     </li>
