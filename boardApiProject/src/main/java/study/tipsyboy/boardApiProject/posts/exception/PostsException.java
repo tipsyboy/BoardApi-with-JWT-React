@@ -1,8 +1,12 @@
 package study.tipsyboy.boardApiProject.posts.exception;
 
 
-public class PostsException extends RuntimeException {
-    public PostsException(PostsExceptionType postsExceptionType) {
-        super(postsExceptionType.getMessage());
+import study.tipsyboy.boardApiProject.exception.ExceptionType;
+import study.tipsyboy.boardApiProject.exception.GlobalBaseException;
+
+public class PostsException extends GlobalBaseException {
+
+    public PostsException(ExceptionType exceptionType) {
+        super(exceptionType);
     }
 }

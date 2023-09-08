@@ -1,8 +1,11 @@
 package study.tipsyboy.boardApiProject.reply.exception;
 
-public class ReplyException extends RuntimeException {
+import study.tipsyboy.boardApiProject.exception.ExceptionType;
+import study.tipsyboy.boardApiProject.exception.GlobalBaseException;
 
-    public ReplyException(ReplyExceptionType replyExceptionType) {
-        super(replyExceptionType.getMessage());
+public class ReplyException extends GlobalBaseException {
+
+    public ReplyException(ExceptionType exceptionType) {
+        super(exceptionType);
     }
 }

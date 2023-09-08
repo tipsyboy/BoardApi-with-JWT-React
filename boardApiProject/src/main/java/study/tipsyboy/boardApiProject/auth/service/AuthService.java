@@ -38,6 +38,10 @@ public class AuthService {
             throw new AuthException(AuthExceptionType.DUPLICATE_EMAIL);
         }
 
+        if (memberRepository.existsByNickname(requestDto.getNickname())) {
+            throw new AuthException(AuthExceptionType.DUPLICATE_NICKNAME);
+        }
+
         Member member = Member.builder()
                 .email(requestDto.getEmail())
                 .password(passwordEncoder.encode(requestDto.getPassword()))
