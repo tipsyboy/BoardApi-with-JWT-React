@@ -9,7 +9,29 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const [message, setMessage] = useState("");
+  const [generalError, setGeneralError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [nicknameError, setNicknameError] = useState("");
+
+  const isValidationException = (error) => {
+    return error.config && error.response && error.response.data.status === 400;
+  };
+
+  const isConflictException = (error) => {
+    return error.config && error.response && error.response.data.status === 409;
+  };
+
+  const setValidationExMessages = (error) => {
+    if (isValidationException(error)) {
+      const validationExMessages = error.response.data.validationExMessages;
+      setEmailError(validationExMessages.email || "");
+      setPasswordError(validationExMessages.password || "");
+      setNicknameError(validationExMessages.nickname || "");
+    } else if (isConflictException(error)) {
+      setGeneralError(error.response.data.message || "");
+    }
+  };
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -25,12 +47,14 @@ const Signup = () => {
         navigate("/login");
       })
       .catch((error) => {
-        console.log(error);
+        setValidationExMessages(error);
       });
   };
 
   return (
     <div className="form-container">
+      <div className="error-message">{generalError}</div>
+
       <form onSubmit={handleSignup}>
         <div className="input-container">
           <label className="input-container-label">E-mail</label>
@@ -40,8 +64,11 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
+            required
           />
         </div>
+        <div className="error-message">{emailError}</div>
+
         <div className="input-container">
           <label className="input-container-label">Password</label>
           <input
@@ -50,8 +77,11 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
+            required
           />
         </div>
+        <div className="error-message">{passwordError}</div>
+
         <div className="input-container">
           <label className="input-container-label">Nickname</label>
           <input
@@ -60,8 +90,11 @@ const Signup = () => {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             placeholder="nickname"
+            required
           />
         </div>
+        <div className="error-message">{nicknameError}</div>
+
         <button className="auth-btn" type="submit">
           sign up
         </button>

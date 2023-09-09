@@ -45,6 +45,7 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
+            required
           />
         </div>
         <div className="input-container">
@@ -55,11 +56,12 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="password"
+            required
           />
         </div>
         <p className="error-message">{message}</p>
         <p className="signup-help">
-          아직 회원이 아니라면 <a href="/signup">회원가입</a>
+          아직 회원이 아니라면? <a href="/signup">회원가입</a>
         </p>
         <button className="auth-btn" type="submit">
           Login

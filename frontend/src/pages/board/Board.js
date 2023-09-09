@@ -39,6 +39,7 @@ const Board = (props) => {
             <th id="board-posts-title-head">제목</th>
             <th>작성자</th>
             <th>작성일시</th>
+            <th>추천</th>
           </tr>
         </thead>
 
@@ -65,6 +66,7 @@ const Board = (props) => {
                   second: "2-digit",
                 })}
               </td>
+              <td>{posts.likes}</td>
             </tr>
           ))}
         </tbody>
