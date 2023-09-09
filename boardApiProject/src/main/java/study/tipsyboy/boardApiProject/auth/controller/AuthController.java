@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import study.tipsyboy.boardApiProject.auth.dto.*;
 import study.tipsyboy.boardApiProject.auth.service.AuthService;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> signup(@RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<Long> signup(@Valid @RequestBody SignupRequestDto requestDto) {
         return ResponseEntity.ok(authService.signup(requestDto));
     }
 
