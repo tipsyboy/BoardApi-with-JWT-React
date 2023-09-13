@@ -23,6 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
 
+        log.info("[JWT Authentication Entry Point]");
         String exception = (String) request.getAttribute("exception");
         if (exception != null) {
             for (JwtExceptionType exceptionType : JwtExceptionType.values()) {
