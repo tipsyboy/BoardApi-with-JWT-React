@@ -29,4 +29,7 @@
     - [x] 댓글에는 추천 기능이 있어 추천할 수 있다.
 - Board
     - [x] 게시판은 카테고리를 사용해서 여러 게시판으로 나뉜다.
----
+
+
+## 📊 ERD
+![ERD](https://github.com/tipsyboy/BoardApi-with-JWT-React/assets/42955111/12e27db8-3183-4fea-9853-92a1a6352bbb)
