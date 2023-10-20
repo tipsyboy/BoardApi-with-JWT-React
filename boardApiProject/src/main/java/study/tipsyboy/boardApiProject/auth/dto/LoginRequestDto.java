@@ -1,15 +1,13 @@
 package study.tipsyboy.boardApiProject.auth.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
 public class LoginRequestDto {
 
     @NotBlank(message = "이메일을 입력해주세요.")
