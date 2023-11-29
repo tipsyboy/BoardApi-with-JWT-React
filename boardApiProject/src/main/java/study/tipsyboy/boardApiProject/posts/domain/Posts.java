@@ -1,7 +1,6 @@
 package study.tipsyboy.boardApiProject.posts.domain;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.reply.domain.Reply;
 
@@ -33,7 +32,7 @@ public class Posts {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "posts")
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
     private List<Reply> replyList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

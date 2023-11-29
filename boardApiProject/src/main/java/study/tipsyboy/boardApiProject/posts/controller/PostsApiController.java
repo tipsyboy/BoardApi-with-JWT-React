@@ -12,6 +12,7 @@ import study.tipsyboy.boardApiProject.posts.service.PostsService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
@@ -51,4 +52,10 @@ public class PostsApiController {
 
         return ResponseEntity.ok(postsService.findPostsByCategory(category, page));
     }
+
+//    @GetMapping("/category/{category}")
+//    public ResponseEntity<List<PostsReadResponseDto>> readByCategory(@PathVariable String category) {
+//
+//        return ResponseEntity.ok(postsService.findPostsByCategory(category));
+//    }
 }

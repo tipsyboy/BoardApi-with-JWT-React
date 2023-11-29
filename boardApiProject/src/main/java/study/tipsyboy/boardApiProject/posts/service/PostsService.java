@@ -67,6 +67,12 @@ public class PostsService {
                 .map(Posts -> PostsReadResponseDto.from(Posts));
     }
 
+//    public List<PostsReadResponseDto> findPostsByCategory(String category) {
+//        return postsRepository.findByCategory(Category.getCategoryByKey(category)).stream()
+//                .map(Posts -> PostsReadResponseDto.from(Posts))
+//                .collect(Collectors.toList());
+//    }
+
     private int convertToStartingIndexOne(int page) {
         if (page <= 0) {
             return 0;

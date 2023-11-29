@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import study.tipsyboy.boardApiProject.auth.dto.LoginRequestDto;
+import study.tipsyboy.boardApiProject.auth.dto.LoginResponseDto;
 import study.tipsyboy.boardApiProject.auth.dto.SignupRequestDto;
 import study.tipsyboy.boardApiProject.member.domain.Member;
 import study.tipsyboy.boardApiProject.member.domain.MemberRepository;
@@ -31,6 +34,9 @@ class AuthControllerTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName("회원가입을 한다.")
@@ -104,4 +110,31 @@ class AuthControllerTest {
                 .andExpect(status().isConflict())
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("로그인을 한다.")
+    public void login() throws Exception {
+        // given
+        Member member = Member.builder()
+                .email("test@test.com")
+                .password(passwordEncoder.encode("password123"))
+                .nickname("tester")
+                .memberRole(MemberRole.MEMBER)
+                .build();
+        memberRepository.save(member);
+
+        LoginRequestDto loginRequestDto = LoginRequestDto.builder()
+                .email("test@test.com")
+                .password("password123")
+                .build();
+        String json = objectMapper.writeValueAsString(loginRequestDto);
+
+        // expected
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
 }

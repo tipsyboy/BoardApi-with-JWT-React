@@ -14,9 +14,9 @@ import study.tipsyboy.boardApiProject.exception.dto.GeneralExceptionResponse;
 import study.tipsyboy.boardApiProject.exception.dto.ValidationExceptionResponse;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -59,12 +59,18 @@ public class GlobalExceptionHandler {
         log.error("[EXCEPTION: VALIDATION FAILED]");
 
         List<FieldError> fieldErrors = e.getFieldErrors();
-        Map<String, String> exceptionMessages = new HashMap<>();
-        for (FieldError fieldError : fieldErrors) {
-//            log.info("error={}", fieldError);
-            exceptionMessages.put(fieldError.getField(), fieldError.getDefaultMessage());
-        }
-
+        // 식 변경
+//        Map<String, String> exceptionMessages = new HashMap<>();
+//        for (FieldError fieldError : fieldErrors) {
+////            log.info("error={}", fieldError);
+//            exceptionMessages.put(fieldError.getField(), fieldError.getDefaultMessage());
+//        }
+        Map<String, String> exceptionMessages = fieldErrors.stream()
+                .collect(Collectors.toMap(
+                                FiledError -> FiledError.getField(),
+                                FiledError -> FiledError.getDefaultMessage()
+                ));
+        
         ValidationExceptionResponse exceptionResponse = ValidationExceptionResponse.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
